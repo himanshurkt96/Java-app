@@ -14,10 +14,11 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'main',
+                git(
+                branch: 'main',
                 credentialsId: 'git-cred'
-                    url: 'https://github.com/himanshurkt96/Java-app.git'
-            }
+                url: 'https://github.com/himanshurkt96/Java-app.git'
+            )}
         }
 
         stage('Build') {
