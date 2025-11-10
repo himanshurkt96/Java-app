@@ -1,43 +1,46 @@
 pipeline {
     agent any 
+
     tools {
         maven 'Maven3'
         jdk 'JDK17'
     }
 
+    triggers {
+        githubPush()
+    }
+
     stages {
-        stage('Checkout'){
-            steps{
-                git branch: 'main'
-                url:
+
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/<your-username>/<your-repo>.git'
             }
         }
-    
 
-    stage('Build') {
-        steps{
-            sh 'mvn clean install -DskipTests'
+        stage('Build') {
+            steps {
+                sh 'mvn clean install -DskipTests'
+            }
         }
+
+        stage('Run Unit Test') {
+            steps {
+                sh 'mvn test'
+            }
         }
-    stage('Run Unit Test') {
-        steps {
-            sh 'mvn run test'
+
+        stage('Deploy Locally') {
+            steps {
+                sh """
+                echo "Stopping existing application..."
+                pkill -f 'java -jar' || true
+
+                echo "Starting application..."
+                nohup java -jar target/*.jar > app.log 2>&1 &
+                """
+            }
         }
-    }
-
-    stage('Deploy Locally') {
-
-        steps {
-            steps """
-            echo "Stopping existing application"
-            pkill -f 'java -jar' || true
-
-            echo 'Starting Application'
-            nohup java -jar target/*.jar > app.log 
-
-
-            """
-        }
-    }
     }
 }
