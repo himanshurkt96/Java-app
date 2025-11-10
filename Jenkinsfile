@@ -40,7 +40,7 @@ pipeline {
                 pkill -f 'java -jar' || true
 
                 echo "Starting application..."
-                nohup java -jar target/*.jar > app.log 2>&1 &
+                nohup java -jar target/*.jar --server.port=9090 > app.log 2>&1 &
                 """
             }
         }
