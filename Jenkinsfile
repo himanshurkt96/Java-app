@@ -16,7 +16,7 @@ pipeline {
             steps {
                 git(
                 branch: 'main',
-                credentialsId: 'git-cred'
+                credentialsId: 'git-cred',
                 url: 'https://github.com/himanshurkt96/Java-app.git'
             )}
         }
