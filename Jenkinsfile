@@ -15,7 +15,8 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/<your-username>/<your-repo>.git'
+                credentialsId: 'git-cred'
+                    url: 'https://github.com/himanshurkt96/Java-app.git'
             }
         }
 
